@@ -1,6 +1,6 @@
 age = 13
 if (age % 2 == 0):
-    print("Even")
+    print("Even Number")
 else:
     print("Odd")
 
