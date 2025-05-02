@@ -33,6 +33,11 @@ students = {
         "name": "Chandra Paal",
         "marks": 89,
         "age": 60
+    },
+    "R07CS005": {
+        "name": "Seetha Rama Raju",
+        "marks": 89,
+        "age": 26
     }
 }
 
