@@ -5,22 +5,22 @@ def create_node(key):
 # Insert a node into BST
 
 
-def insert(root, key):
-    if root is None:
+def insert(node, key):
+    if node is None:
         return create_node(key)
 
-    if key < root["key"]:
-        root["left"] = insert(root["left"], key)
-    elif key > root["key"]:
-        root["right"] = insert(root["right"], key)
+    if key < node["key"]:
+        node["left"] = insert(node["left"], key)
+    elif key > node["key"]:
+        node["right"] = insert(node["right"], key)
 
-    return root
+    return node
 
 # Find minimum value node
 
 
-def find_min_node(root):
-    current = root
+def find_min_node(node):
+    current = node
     while current and current["left"]:
         current = current["left"]
     return current
@@ -28,47 +28,47 @@ def find_min_node(root):
 # Delete a node from BST
 
 
-def delete(root, key):
-    if root is None:
+def delete(node, key):
+    if node is None:
         return None
 
-    if key < root["key"]:
-        root["left"] = delete(root["left"], key)
-    elif key > root["key"]:
-        root["right"] = delete(root["right"], key)
+    if key < node["key"]:
+        node["left"] = delete(node["left"], key)
+    elif key > node["key"]:
+        node["right"] = delete(node["right"], key)
     else:
         # Case 1: Leaf node
-        if root["left"] is None and root["right"] is None:
+        if node["left"] is None and node["right"] is None:
             return None
 
         # Case 2: Node with only one child
-        if root["left"] is None:
-            return root["right"]
-        if root["right"] is None:
-            return root["left"]
+        if node["left"] is None:
+            return node["right"]
+        if node["right"] is None:
+            return node["left"]
 
         # Case 3: Node with two children
-        temp = find_min_node(root["right"])
-        root["key"] = temp["key"]
-        root["right"] = delete(root["right"], temp["key"])
+        temp = find_min_node(node["right"])
+        node["key"] = temp["key"]
+        node["right"] = delete(node["right"], temp["key"])
 
-    return root
+    return node
 
 # Search for a key
 
 
-def search(root, key):
-    if root is None or root["key"] == key:
-        return root
+def search(node, key):
+    if node is None or node["key"] == key:
+        return node
 
-    if key < root["key"]:
-        return search(root["left"], key)
-    return search(root["right"], key)
+    if key < node["key"]:
+        return search(node["left"], key)
+    return search(node["right"], key)
 
 # In-order traversal
 
 
-def inorder(root):
+def inorder(node):
     result = []
 
     def inorder_helper(node):
@@ -77,13 +77,13 @@ def inorder(root):
             result.append(node["key"])
             inorder_helper(node["right"])
 
-    inorder_helper(root)
+    inorder_helper(node)
     return result
 
 # Pre-order traversal
 
 
-def preorder(root):
+def preorder(node):
     result = []
 
     def preorder_helper(node):
@@ -92,13 +92,13 @@ def preorder(root):
             preorder_helper(node["left"])
             preorder_helper(node["right"])
 
-    preorder_helper(root)
+    preorder_helper(node)
     return result
 
 # Post-order traversal
 
 
-def postorder(root):
+def postorder(node):
     result = []
 
     def postorder_helper(node):
@@ -107,40 +107,40 @@ def postorder(root):
             postorder_helper(node["right"])
             result.append(node["key"])
 
-    postorder_helper(root)
+    postorder_helper(node)
     return result
 
 # Height of BST
 
 
-def height(root):
-    if root is None:
+def height(node):
+    if node is None:
         return -1
 
-    left_height = height(root["left"])
-    right_height = height(root["right"])
+    left_height = height(node["left"])
+    right_height = height(node["right"])
 
     return max(left_height, right_height) + 1
 
 # Count nodes
 
 
-def count_nodes(root):
-    if root is None:
+def count_nodes(node):
+    if node is None:
         return 0
-    return 1 + count_nodes(root["left"]) + count_nodes(root["right"])
+    return 1 + count_nodes(node["left"]) + count_nodes(node["right"])
 
 # Check if BST is balanced
 
 
-def is_balanced(root):
-    if root is None:
+def is_balanced(node):
+    if node is None:
         return True
 
-    left_height = height(root["left"])
-    right_height = height(root["right"])
+    left_height = height(node["left"])
+    right_height = height(node["right"])
 
-    if abs(left_height - right_height) <= 1 and is_balanced(root["left"]) and is_balanced(root["right"]):
+    if abs(left_height - right_height) <= 1 and is_balanced(node["left"]) and is_balanced(node["right"]):
         return True
 
     return False
@@ -148,18 +148,18 @@ def is_balanced(root):
 # Find successor (next larger value)
 
 
-def successor(root, key):
+def successor(node, key):
     succ = None
 
-    while root:
-        if key < root["key"]:
-            succ = root
-            root = root["left"]
-        elif key > root["key"]:
-            root = root["right"]
+    while node:
+        if key < node["key"]:
+            succ = node
+            node = node["left"]
+        elif key > node["key"]:
+            node = node["right"]
         else:
-            if root["right"]:
-                succ = find_min_node(root["right"])
+            if node["right"]:
+                succ = find_min_node(node["right"])
             break
 
     return succ
@@ -167,19 +167,19 @@ def successor(root, key):
 # Find predecessor (next smaller value)
 
 
-def predecessor(root, key):
+def predecessor(node, key):
     pred = None
 
-    while root:
-        if key > root["key"]:
-            pred = root
-            root = root["right"]
-        elif key < root["key"]:
-            root = root["left"]
+    while node:
+        if key > node["key"]:
+            pred = node
+            node = node["right"]
+        elif key < node["key"]:
+            node = node["left"]
         else:
-            if root["left"]:
+            if node["left"]:
                 # Find the maximum value in left subtree
-                curr = root["left"]
+                curr = node["left"]
                 while curr and curr["right"]:
                     curr = curr["right"]
                 pred = curr
@@ -190,12 +190,12 @@ def predecessor(root, key):
 # Level order traversal (BFS)
 
 
-def level_order(root):
-    if root is None:
+def level_order(node):
+    if node is None:
         return []
 
     result = []
-    queue = [root]
+    queue = [node]
 
     while queue:
         node = queue.pop(0)
@@ -211,20 +211,20 @@ def level_order(root):
 # Check if tree is a valid BST
 
 
-def is_bst(root, min_val=float('-inf'), max_val=float('inf')):
-    if root is None:
+def is_bst(node, min_val=float('-inf'), max_val=float('inf')):
+    if node is None:
         return True
 
-    if root["key"] <= min_val or root["key"] >= max_val:
+    if node["key"] <= min_val or node["key"] >= max_val:
         return False
 
-    return (is_bst(root["left"], min_val, root["key"]) and
-            is_bst(root["right"], root["key"], max_val))
+    return (is_bst(node["left"], min_val, node["key"]) and
+            is_bst(node["right"], node["key"], max_val))
 
 # Display BST (for visualization)
 
 
-def display(root, space=0, increment=10):
+def display(node, space=0, increment=10):
     result = []
 
     def display_helper(node, space):
@@ -237,60 +237,63 @@ def display(root, space=0, increment=10):
         result.append("\n" + " " * (space - increment) + str(node["key"]))
         display_helper(node["left"], space)
 
-    display_helper(root, space)
+    display_helper(node, space)
     return "".join(result)
 
 # Main test function
 
 
 def test_bst():
-    root = None
+    node = None
 
     # Insert nodes
-    root = insert(root, 50)
-    insert(root, 30)
-    insert(root, 20)
-    insert(root, 40)
-    insert(root, 70)
-    insert(root, 60)
-    insert(root, 80)
+    node = insert(node, 50)
+    insert(node, 30)
+    insert(node, 20)
+    insert(node, 40)
+    insert(node, 70)
+    insert(node, 60)
+    insert(node, 80)
+    insert(node, 35)
+    insert(node, 46)
+    insert(node, 38)
+    insert(node, 83)
 
     print("BST Display:")
-    print(display(root))
+    print(display(node))
 
-    print("\nInorder traversal:", inorder(root))
-    print("Preorder traversal:", preorder(root))
-    print("Postorder traversal:", postorder(root))
-    print("Level order traversal:", level_order(root))
+    print("\nInorder traversal:", inorder(node))
+    print("Preorder traversal:", preorder(node))
+    print("Postorder traversal:", postorder(node))
+    print("Level order traversal:", level_order(node))
 
-    print("\nHeight of tree:", height(root))
-    print("Number of nodes:", count_nodes(root))
-    print("Is balanced:", is_balanced(root))
-    print("Is valid BST:", is_bst(root))
+    print("\nHeight of tree:", height(node))
+    print("Number of nodes:", count_nodes(node))
+    print("Is balanced:", is_balanced(node))
+    print("Is valid BST:", is_bst(node))
 
     key = 40
-    found = search(root, key)
+    found = search(node, key)
     print(f"\nSearch for {key}:", "Found" if found else "Not found")
 
-    succ = successor(root, key)
+    succ = successor(node, key)
     print(f"Successor of {key}:", succ["key"] if succ else "None")
 
-    pred = predecessor(root, key)
+    pred = predecessor(node, key)
     print(f"Predecessor of {key}:", pred["key"] if pred else "None")
 
     print("\nDeleting 20 (leaf node)")
-    root = delete(root, 20)
-    print("Inorder after deletion:", inorder(root))
+    node = delete(node, 20)
+    print("Inorder after deletion:", inorder(node))
 
     print("\nDeleting 30 (node with one child)")
-    root = delete(root, 30)
-    print("Inorder after deletion:", inorder(root))
+    node = delete(node, 30)
+    print("Inorder after deletion:", inorder(node))
 
-    print("\nDeleting 50 (root node with two children)")
-    root = delete(root, 50)
-    print("Inorder after deletion:", inorder(root))
-    print("New root:", root["key"])
+    print("\nDeleting 50 (node node with two children)")
+    node = delete(node, 50)
+    print("Inorder after deletion:", inorder(node))
+    print("New node:", node["key"])
 
 
-if __name__ == "__main__":
-    test_bst()
+test_bst()
